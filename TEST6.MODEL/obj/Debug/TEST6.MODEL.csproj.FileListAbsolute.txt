@@ -1,0 +1,2 @@
+C:\Users\intern.bdthuan\source\repos\TEST6.MODEL\TEST6.MODEL\obj\Debug\TEST6.MODEL.csprojAssemblyReference.cache
+C:\Users\intern.bdthuan\source\repos\TEST6.MODEL\TEST6.MODEL\obj\Debug\TEST6.MODEL.csproj.CoreCompileInputs.cache
