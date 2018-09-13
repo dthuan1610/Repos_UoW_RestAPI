@@ -44,19 +44,26 @@ namespace TEST6.API.Controllers
         public CustomerDTO Post(CustomerDTO CusObj)
         {
             customer Cus = Mapper.Map<customer>(CusObj);
-            _customerService.Add(Cus);
+            var cusDTO = _customerService.Add(Cus);
             _customerService.Save();
-            return CusObj;
+            return Mapper.Map<CustomerDTO>(cusDTO);
         }
 
-        // PUT: api/Customer/5
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public CustomerDTO Put(int id,CustomerDTO CusObj)
         {
+            CusObj.Id = id;
+            _customerService.Update(Mapper.Map<customer>(CusObj));
+            _customerService.Save();
+            return Mapper.Map<CustomerDTO>(_customerService.GetSingle(id));
         }
 
-        // DELETE: api/Customer/5
-        public void Delete(int id)
+        [HttpDelete]
+        public List<CustomerDTO> Delete(int id)
         {
+            _customerService.Delete(id);
+            _customerService.Save();
+            return Mapper.Map<List<CustomerDTO>>(_customerService.GetAll());
         }
     }
 }
