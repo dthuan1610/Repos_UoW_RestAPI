@@ -20,5 +20,9 @@ namespace TEST6.DATAS.Infrastructure
         List<T> GetAll();
 
         int Count(Expression<Func<T, bool>> where);
+
+        IQueryable<T> Search(Expression<Func<T, bool>> predicate);
+
+        List<T> Paging(IQueryable<T> _PageContent, Expression<Func<T, string>> orderby, int pageNumber, int pageSize, bool asc = true);
     }
 }

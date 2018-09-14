@@ -32,11 +32,19 @@ namespace TEST6.API.Controllers
             return Mapper.Map<List<CustomerDTO>>(ListCus);
         }
 
+        [HttpGet]
         // GET: api/Customer/5
         public CustomerDTO Get(int id)
         {
             var CusObj = _customerService.GetSingle(id);
             return Mapper.Map<CustomerDTO>(CusObj);
+        }
+
+        [HttpGet]
+        public List<CustomerDTO> Search( string searchstring ,bool asc =true , int pagenumber =1 , int pagesize = 100)
+        {
+            var listcus = _customerService.Search(searchstring , asc , pagesize, pagenumber);
+            return Mapper.Map<List<CustomerDTO>>(listcus);
         }
 
         [HttpPost]

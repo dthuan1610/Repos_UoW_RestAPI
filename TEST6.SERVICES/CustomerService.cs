@@ -22,6 +22,8 @@ namespace TEST6.SERVICE
 
         customer GetSingle(int id);
 
+        List<customer> Search(string searchingstring,bool asc , int pagesize, int pagenumber );
+
         void Save();
 
     }
@@ -59,6 +61,13 @@ namespace TEST6.SERVICE
         public void Save()
         {
             _unitOfWork.Commit(); 
+        }
+
+
+        public List<customer> Search(string searchingstring, bool asc , int pagesize, int pagenumber)
+        {
+            IQueryable<customer> CusQuery = _customerRepository.Search(x => x.first_name.Contains(searchingstring));
+            return _customerRepository.Paging(CusQuery, y => y.first_name, pagenumber, pagesize, asc);
         }
 
         public void Update(customer CusObj)

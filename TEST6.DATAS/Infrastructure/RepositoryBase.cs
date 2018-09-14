@@ -65,5 +65,28 @@ namespace TEST6.DATAS.Infrastructure
         {
             return dbSet.Count(where);
         }
+
+        public IQueryable<T> Search(Expression<Func<T, bool>> predicate)
+        {
+            IQueryable<T> _PageContent = predicate != null ? datacontext.Set<T>().Where<T>(predicate).AsQueryable() : datacontext.Set<T>().AsQueryable();
+            return _PageContent;
+        }
+
+        public List<T> Paging(IQueryable<T> _PageContent, Expression<Func<T, string>> orderby, int pageNumber, int pageSize, bool asc)
+        {
+            if (asc == true)
+            {
+                _PageContent =_PageContent.OrderBy(orderby);
+            }
+            else
+            {
+                _PageContent = _PageContent.OrderByDescending(orderby);
+            }
+
+            int skipcount = (pageNumber - 1) * pageSize;
+            _PageContent = skipcount == 0 ? _PageContent.Take(pageSize) : _PageContent.Skip(skipcount).Take(pageSize);
+
+            return _PageContent.ToList();
+        }
     }
 }
