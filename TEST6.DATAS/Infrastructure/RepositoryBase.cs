@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TEST6.MODELS.Model;
 using System.Data.Entity;
 using System.Linq.Expressions;
+using System.Linq.Dynamic;
+using System.Data.SqlClient;
 
 namespace TEST6.DATAS.Infrastructure
 {
@@ -49,9 +51,9 @@ namespace TEST6.DATAS.Infrastructure
             return dbSet.Find(id);
         }
 
-        public List<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            var list = datacontext.Set<T>().ToList();
+            var list = datacontext.Set<T>();
             return list;
         }
 
@@ -66,27 +68,43 @@ namespace TEST6.DATAS.Infrastructure
             return dbSet.Count(where);
         }
 
-        public IQueryable<T> Search(Expression<Func<T, bool>> predicate)
+        public IQueryable<T> Sort(string orderbyname, string table , bool asc)
         {
-            IQueryable<T> _PageContent = predicate != null ? datacontext.Set<T>().Where<T>(predicate).AsQueryable() : datacontext.Set<T>().AsQueryable();
-            return _PageContent;
+            if (orderbyname == "fullname")
+            {
+                orderbyname = "CONCAT(first_name,' ',last_name)";
+            }
+            var x = $"SELECT * FROM {table} order by {orderbyname}";
+            if(asc != true)
+            {
+                 x = $"SELECT * FROM {table} order by {orderbyname} DESC";
+            }
+            IQueryable<T> sortresult = DbContext.Database.SqlQuery<T>(x).AsQueryable();
+            return sortresult;
         }
 
-        public List<T> Paging(IQueryable<T> _PageContent, Expression<Func<T, string>> orderby, int pageNumber, int pageSize, bool asc)
+        public IQueryable<T> Paging(IQueryable<T> _PageContent, int pageNumber, int pageSize)
         {
-            if (asc == true)
-            {
-                _PageContent =_PageContent.OrderBy(orderby);
-            }
-            else
-            {
-                _PageContent = _PageContent.OrderByDescending(orderby);
-            }
-
             int skipcount = (pageNumber - 1) * pageSize;
             _PageContent = skipcount == 0 ? _PageContent.Take(pageSize) : _PageContent.Skip(skipcount).Take(pageSize);
 
-            return _PageContent.ToList();
+            return _PageContent;
         }
+
+        public IQueryable<T> SearchSort(string table,string searchingstring , string searchfield , string orderbyname , bool asc)
+        {
+            if (orderbyname == "fullname")
+            {
+                orderbyname = "CONCAT(first_name,' ',last_name)";
+            }
+            var x = $"SELECT * FROM {table} where {searchfield} like '%{searchingstring}%' ORDER BY {orderbyname}";
+            if (asc != true)
+            {
+                x = $"SELECT * FROM {table} where {searchfield} like '%{searchingstring}%' ORDER BY {orderbyname}";
+            }
+            IQueryable<T> searchresult = DbContext.Database.SqlQuery<T>(x).AsQueryable();
+            return searchresult;
+        }
+
     }
 }

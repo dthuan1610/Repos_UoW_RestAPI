@@ -74,3 +74,4 @@ C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.SERVICES\bin\Debug
 C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.SERVICES\bin\Debug\Unity.ServiceLocation.pdb
 C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.SERVICES\bin\Debug\EntityFramework.xml
 C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.SERVICES\obj\Debug\TEST6.SERVICES.csproj.CopyComplete
+C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.SERVICES\bin\Debug\System.Linq.Dynamic.dll

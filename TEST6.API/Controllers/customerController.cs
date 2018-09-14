@@ -26,10 +26,20 @@ namespace TEST6.API.Controllers
 
         [HttpGet]
         // GET: api/Customer
-        public List<CustomerDTO> Get()
+        public List<CustomerDTO> Get(string searchfield = null , string searchstring = null, string sortby = "fullname", int pagenumber = 1, int pagesize = 100 , bool asc = true)
         {
-            var ListCus = _customerService.GetAll();
-            return Mapper.Map<List<CustomerDTO>>(ListCus);
+            
+            IQueryable<customer> ListCus;
+                if (searchstring != null && searchfield != null)
+                {
+                    ListCus = _customerService.Search(searchstring, searchfield, sortby, asc);
+                }
+                else
+                {
+                    ListCus = _customerService.Sort(sortby, asc);
+                }
+            ListCus = _customerService.Paging(ListCus, pagenumber, pagesize);
+            return Mapper.Map<List<CustomerDTO>>(ListCus.ToList());
         }
 
         [HttpGet]
@@ -38,13 +48,6 @@ namespace TEST6.API.Controllers
         {
             var CusObj = _customerService.GetSingle(id);
             return Mapper.Map<CustomerDTO>(CusObj);
-        }
-
-        [HttpGet]
-        public List<CustomerDTO> Search( string searchstring ,bool asc =true , int pagenumber =1 , int pagesize = 100)
-        {
-            var listcus = _customerService.Search(searchstring , asc , pagesize, pagenumber);
-            return Mapper.Map<List<CustomerDTO>>(listcus);
         }
 
         [HttpPost]
@@ -58,7 +61,7 @@ namespace TEST6.API.Controllers
         }
 
         [HttpPut]
-        public CustomerDTO Put(int id,CustomerDTO CusObj)
+        public CustomerDTO Put(int id, CustomerDTO CusObj)
         {
             CusObj.Id = id;
             _customerService.Update(Mapper.Map<customer>(CusObj));

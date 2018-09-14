@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TEST6.DATAS.Infrastructure;
 using TEST6.MODELS.Model;
 using TEST6.DATAS.Interface;
+using System.Data.SqlClient;
 
 namespace TEST6.DATAS.Repository
 {
@@ -14,6 +15,7 @@ namespace TEST6.DATAS.Repository
     {
         public CustomerRepository(IDbFactory dbFactory) : base(dbFactory)
         {
+
         }
     }
 }

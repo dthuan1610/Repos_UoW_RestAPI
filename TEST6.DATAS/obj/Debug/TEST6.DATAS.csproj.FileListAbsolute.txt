@@ -72,3 +72,4 @@ C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.DATAS\obj\Debug\TE
 C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.DATAS\obj\Debug\TEST6.DATAS.csproj.CopyComplete
 C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.DATAS\obj\Debug\TEST6.DATAS.dll
 C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.DATAS\obj\Debug\TEST6.DATAS.pdb
+C:\Users\intern.bdthuan\Documents\Git\Repos_UoW_RestAPI\TEST6.DATAS\bin\Debug\System.Linq.Dynamic.dll

@@ -17,12 +17,14 @@ namespace TEST6.DATAS.Infrastructure
 
         T Get(int id);
 
-        List<T> GetAll();
+        IQueryable<T> GetAll();
 
         int Count(Expression<Func<T, bool>> where);
 
-        IQueryable<T> Search(Expression<Func<T, bool>> predicate);
+        IQueryable<T> SearchSort(string table, string searchingstring, string searchfield , string orderbyname, bool asc);
 
-        List<T> Paging(IQueryable<T> _PageContent, Expression<Func<T, string>> orderby, int pageNumber, int pageSize, bool asc = true);
+        IQueryable<T> Sort(string orderbyname, string table , bool asc);
+
+        IQueryable<T> Paging(IQueryable<T> _PageContent, int pageNumber, int pageSize);
     }
 }

@@ -7,6 +7,8 @@ using TEST6.MODELS.Model;
 using TEST6.DATAS.Repository;
 using TEST6.DATAS.Infrastructure;
 using TEST6.DATAS.Interface;
+using System.Linq.Expressions;
+
 
 namespace TEST6.SERVICE
 {
@@ -18,12 +20,14 @@ namespace TEST6.SERVICE
 
         customer Delete(int id);
 
-        List<customer> GetAll();
+        IQueryable<customer> GetAll();
 
         customer GetSingle(int id);
 
-        List<customer> Search(string searchingstring,bool asc , int pagesize, int pagenumber );
+        IQueryable<customer> Search(string searchingstring, string searchfield , string orderbyname , bool asc);
 
+        IQueryable<customer> Paging(IQueryable<customer> _PageContent, int pageNumber, int pageSize);
+        IQueryable<customer> Sort(string orderbyname, bool asc);
         void Save();
 
     }
@@ -48,7 +52,7 @@ namespace TEST6.SERVICE
             return _customerRepository.Delete(id);
         }
 
-        public List<customer> GetAll()
+        public IQueryable<customer> GetAll()
         {
             return _customerRepository.GetAll();
         }
@@ -58,16 +62,24 @@ namespace TEST6.SERVICE
             return _customerRepository.Get(id);
         }
 
+        public IQueryable<customer> Paging(IQueryable<customer> _PageContent, int pageNumber, int pageSize)
+        {
+            return _customerRepository.Paging(_PageContent, pageNumber, pageSize);
+        }
+
         public void Save()
         {
             _unitOfWork.Commit(); 
         }
 
-
-        public List<customer> Search(string searchingstring, bool asc , int pagesize, int pagenumber)
+        public IQueryable<customer> Search(string searchingstring,string searchfield, string orderbyname, bool asc)
         {
-            IQueryable<customer> CusQuery = _customerRepository.Search(x => x.first_name.Contains(searchingstring));
-            return _customerRepository.Paging(CusQuery, y => y.first_name, pagenumber, pagesize, asc);
+            return _customerRepository.SearchSort("dbo.customers",searchingstring , searchfield , orderbyname , asc);
+        }
+
+        public IQueryable<customer> Sort(string orderbyname, bool asc)
+        {
+            return _customerRepository.Sort(orderbyname, "dbo.customers",asc);
         }
 
         public void Update(customer CusObj)
