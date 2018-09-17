@@ -70,10 +70,6 @@ namespace TEST6.DATAS.Infrastructure
 
         public IQueryable<T> Sort(string orderbyname, string table , bool asc)
         {
-            if (orderbyname == "fullname")
-            {
-                orderbyname = "CONCAT(first_name,' ',last_name)";
-            }
             var x = $"SELECT * FROM {table} order by {orderbyname}";
             if(asc != true)
             {
@@ -93,10 +89,6 @@ namespace TEST6.DATAS.Infrastructure
 
         public IQueryable<T> SearchSort(string table,string searchingstring , string searchfield , string orderbyname , bool asc)
         {
-            if (orderbyname == "fullname")
-            {
-                orderbyname = "CONCAT(first_name,' ',last_name)";
-            }
             var x = $"SELECT * FROM {table} where {searchfield} like '%{searchingstring}%' ORDER BY {orderbyname}";
             if (asc != true)
             {

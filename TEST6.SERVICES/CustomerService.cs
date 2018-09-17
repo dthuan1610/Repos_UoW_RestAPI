@@ -74,11 +74,19 @@ namespace TEST6.SERVICE
 
         public IQueryable<customer> Search(string searchingstring,string searchfield, string orderbyname, bool asc)
         {
+            if (orderbyname == "fullname")
+            {
+                orderbyname = "CONCAT(first_name,' ',last_name)";
+            }
             return _customerRepository.SearchSort("dbo.customers",searchingstring , searchfield , orderbyname , asc);
         }
 
         public IQueryable<customer> Sort(string orderbyname, bool asc)
         {
+            if (orderbyname == "fullname")
+            {
+                orderbyname = "CONCAT(first_name,' ',last_name)";
+            }
             return _customerRepository.Sort(orderbyname, "dbo.customers",asc);
         }
 
